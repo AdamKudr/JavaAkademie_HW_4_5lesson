@@ -5,6 +5,7 @@
 git rm --cached */*.iml
 git rm -r --cached **/out/
 git rm -r --cached **/.idea/
+git rm -r --cached **/kvetiny-spatne-datum.txt
 git add -A
 git commit -m "Odstraněny ignorované soubory po aktualizaci .gitignore"
 git push
