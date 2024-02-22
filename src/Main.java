@@ -1,19 +1,65 @@
 import java.time.LocalDate;
+import java.util.Collections;
 
 public class Main {
-    public static void main(String[] args) throws PlantException {
+    public static void main(String[] args) {
 
-        Plant plant1 = new Plant("Sakura");
-        System.out.println(plant1.getWateringInfo());
+        PlantList plants = new PlantList();
 
+        //Načtení souboru
         try {
-            Plant plant2 = new Plant("Bonsai", LocalDate.now(), 0);
-            System.out.println(plant2.getWateringInfo());
+            plants.loadContentFromFile("kvetiny.txt");
         }
         catch (PlantException e) {
-            throw new PlantException("Chyba při zadávání rostliny! " + e.getLocalizedMessage());
+            System.err.println("Nastala chyba při čtení souboru. Zkontrolujte údaje o rostlinách!");
         }
-        Plant plant3 = new Plant ("Jabloň", "Kvete na jaře, sklízí se na podzim", LocalDate.of(2024, 6, 5), LocalDate.of(2024, 6, 4), 20);
-        System.out.println(plant3.getWateringInfo());
+
+        try {
+            Plant plant1 = new Plant("Sakura");
+            plants.addPlant(plant1);
+        } catch (PlantException e) {
+            System.err.println("Nastala chyba při přidávání rostliny do seznamu! " +e.getLocalizedMessage());
+        }
+
+        try {
+            Plant plant2 = new Plant("Bonsai", "malý strom", LocalDate.now(), LocalDate.of(2024, 03, 03),5);
+            plants.addPlant(plant2);
+        } catch (PlantException e) {
+            System.err.println("Nastala chyba při přidávání rostliny do seznamu! " +e.getLocalizedMessage());
+        }
+
+        plants.removePlant(plants.getPlant(0));
+
+        //uložení do souboru
+        try {
+            plants.saveContentToFile("kvetiny_new.txt");
+        }
+        catch (PlantException e) {
+            System.err.println("Nastala chyba při ukládání do souboru. Zkontrolujte údaje o rostlinách!");
+        }
+
+        try {
+            plants.loadContentFromFile("kvetiny_new.txt");
+        }
+        catch (PlantException e) {
+            System.err.println("Nastala chyba při čtení souboru. Zkontrolujte údaje o rostlinách!");
+        }
+
+        for (Plant plant : plants.getPlants()) {
+            System.out.println(plant.getWateringInfo());
+        }
+        System.out.println("\n" + "\n");
+
+        Collections.sort(plants.getPlants());
+        for (Plant plant : plants.getPlants()) {
+            System.out.println(plant.getWateringInfo());
+        }
+        System.out.println("\n" + "\n");
+
+        Collections.sort(plants.getPlants(), new PlantsSortByWatering());
+        for (Plant plant : plants.getPlants()) {
+            System.out.println(plant.getWateringInfo());
+        }
+
     }
 }

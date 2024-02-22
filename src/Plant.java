@@ -1,7 +1,7 @@
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-public class Plant {
+public class Plant implements Comparable<Plant> {
 
     private String name;
     private String notes;
@@ -81,5 +81,19 @@ public class Plant {
 
     public String getWateringInfo() {
         return "Název rostliny: " +name+ "\nDatum poslední zálivky: " +watering+ "\nDatum doporučené další zálivky: " +watering.plusDays(frequencyOfWatering);
+    }
+
+    @Override
+    public String toString() {
+        return  "název=" + name + "\n" +
+                "poznámka=" + notes + "\n" +
+                "zasazeno=" + planted + "\n" +
+                "poslední zálivka=" + watering + "\n" +
+                "frekvence zalévání=" + frequencyOfWatering + "\n" + "----------\n";
+    }
+
+    @Override
+    public int compareTo(Plant second) {
+        return this.getName().compareTo(second.getName());
     }
 }
