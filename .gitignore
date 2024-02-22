@@ -2,6 +2,6 @@
 **/.idea/**
 **/out/**
 
-git rm --cached *.iml
-git rm -r --cached out/
-git rm -r --cached .idea/
+git rm --cached */*.iml
+git rm -r --cached **/out/
+git rm -r --cached **/.idea/
